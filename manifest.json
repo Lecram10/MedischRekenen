@@ -2,7 +2,8 @@
   "name": "Medisch Rekenen",
   "short_name": "Med Rekenen",
   "description": "Oefen medisch rekenen voor de IG-opleiding",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#F8FAFC",
   "theme_color": "#2563EB",
@@ -10,14 +11,22 @@
   "lang": "nl",
   "icons": [
     {
+      "src": "icons/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

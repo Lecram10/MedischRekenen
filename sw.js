@@ -1,20 +1,21 @@
-const CACHE_NAME = 'medisch-rekenen-v1';
+const CACHE_NAME = 'medisch-rekenen-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js',
-  '/js/store.js',
-  '/js/views/home.js',
-  '/js/views/topics.js',
-  '/js/views/practice.js',
-  '/js/views/exam.js',
-  '/js/views/results.js',
-  '/js/data/niveau2a.js',
-  '/js/data/niveau2b.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  './',
+  './index.html',
+  './css/style.css',
+  './js/app.js',
+  './js/store.js',
+  './js/views/home.js',
+  './js/views/topics.js',
+  './js/views/practice.js',
+  './js/views/exam.js',
+  './js/views/results.js',
+  './js/data/niveau2a.js',
+  './js/data/niveau2b.js',
+  './manifest.json',
+  './icons/icon-180.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
