@@ -1,6 +1,9 @@
 import { saveExamResult, getBestExamScore } from '../store.js';
 import { generateExam as genExam2a } from '../data/niveau2a.js';
 import { generateExam as genExam2b } from '../data/niveau2b.js';
+import { generateExam as genExam4 } from '../data/niveau4.js';
+
+const examGenerators = { '2a': genExam2a, '2b': genExam2b, '4': genExam4 };
 
 let timerInterval = null;
 
@@ -13,7 +16,7 @@ export function cleanupExam() {
 
 export function renderExamList(container) {
   const exams = [];
-  for (const niveau of ['2a', '2b']) {
+  for (const niveau of ['2a', '2b', '4']) {
     for (let i = 1; i <= 3; i++) {
       const best = getBestExamScore(niveau, i);
       exams.push({ niveau, id: i, best });
@@ -27,6 +30,9 @@ export function renderExamList(container) {
     <p class="section-header">Niveau 2b - Gevorderd</p>
     ${exams.filter(e => e.niveau === '2b').map((e, i) => examCard(e, i)).join('')}
 
+    <p class="section-header">Niveau 4 - MBO Verpleegkundige</p>
+    ${exams.filter(e => e.niveau === '4').map((e, i) => examCard(e, i)).join('')}
+
     <div class="card animate-in mt-16" style="text-align:center; padding:20px">
       <p style="font-size:0.85rem; color:var(--gray-500)">
         Elke toets bevat 15 vragen en duurt maximaal 45 minuten.
@@ -37,7 +43,8 @@ export function renderExamList(container) {
 }
 
 function examCard(exam, index) {
-  const levelClass = exam.niveau === '2a' ? 'level-2a' : 'level-2b';
+  const levelClasses = { '2a': 'level-2a', '2b': 'level-2b', '4': 'level-4' };
+  const levelClass = levelClasses[exam.niveau] || 'level-2a';
   const badge = exam.best !== null
     ? `<span class="exam-badge best">${exam.best}%</span>`
     : `<span class="exam-badge new">Nieuw</span>`;
@@ -55,7 +62,7 @@ function examCard(exam, index) {
 }
 
 export function renderExam(container, niveau, examId) {
-  const generateExam = niveau === '2a' ? genExam2a : genExam2b;
+  const generateExam = examGenerators[niveau] || genExam2a;
   const questions = generateExam(examId);
   let currentIndex = 0;
   let answers = new Array(questions.length).fill(null);
