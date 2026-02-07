@@ -130,6 +130,70 @@ export const formulas = {
       { label: 'mcg/kg/min naar mL/uur', formula: '1) mcg/min = mcg/kg/min × gewicht\n2) mg/uur = (mcg/min × 60) ÷ 1000\n3) mL/uur = mg/uur ÷ concentratie (mg/mL)', example: '5 mcg/kg/min × 70 kg = 350 mcg/min\n→ (350×60)÷1000 = 21 mg/uur\n→ 21 ÷ 4 mg/mL = 5,25 mL/uur' },
     ],
     tip: 'Concentratie spuitpomp = totaal mg ÷ totaal mL van de spuit (meestal 50 mL).'
+  },
+
+  // === NIVEAU 4 ===
+  bmi: {
+    title: 'BMI berekeningen',
+    formulas: [
+      { label: 'BMI berekenen', formula: 'BMI = gewicht (kg) ÷ lengte (m)²', example: '80 kg ÷ (1,75)² = 80 ÷ 3,0625 = 26,1 kg/m²' },
+      { label: 'Gewicht berekenen uit BMI', formula: 'Gewicht = BMI × lengte (m)²', example: 'BMI 22 × (1,70)² = 22 × 2,89 = 63,6 kg' },
+      { label: 'BMI classificatie', formula: 'Ondergewicht: <18,5 | Normaal: 18,5-24,9\nOvergewicht: 25-29,9 | Obesitas: ≥30', example: 'BMI 26,1 → overgewicht' },
+    ],
+    tip: 'Vergeet niet: lengte van cm naar m omrekenen! 175 cm = 1,75 m.'
+  },
+
+  'internationale-eenheden': {
+    title: 'Internationale Eenheden (IE)',
+    formulas: [
+      { label: 'IE naar mL (insuline)', formula: 'mL = gewenste IE ÷ concentratie (IE/mL)', example: '20 IE ÷ 100 IE/mL = 0,2 mL' },
+      { label: 'Heparine pomp (mL/uur)', formula: 'mL/uur = IE/uur ÷ concentratie (IE/mL)', example: '1000 IE/uur ÷ 200 IE/mL = 5 mL/uur' },
+      { label: 'IE/uur berekenen', formula: 'IE/uur = mL/uur × concentratie (IE/mL)', example: '2 mL/uur × 500 IE/mL = 1000 IE/uur' },
+      { label: 'Insuline sliding scale', formula: 'IE = (glucose − drempel) ÷ correctiefactor', example: 'Glucose 16, drempel 10, factor 2 → (16−10)÷2 = 3 IE' },
+    ],
+    tip: 'Standaard insuline: 100 IE/mL. Heparine: let op de concentratie, die verschilt per spuit!'
+  },
+
+  dagschema: {
+    title: 'Dagschema medicatie',
+    formulas: [
+      { label: 'Eindtijd infuus', formula: 'Eindtijd = starttijd + (volume ÷ mL per uur)', example: '500 mL, 100 mL/uur, start 08:00 → 08:00 + 5 uur = 13:00' },
+      { label: 'Interval tussen giften', formula: 'Interval = 24 uur ÷ aantal giften per dag', example: '4× daags → 24 ÷ 4 = elke 6 uur' },
+      { label: 'Toedientijden bepalen', formula: 'Eerste gift + steeds interval erbij optellen', example: '3× daags, start 06:00 → 06:00, 14:00, 22:00' },
+    ],
+    tip: 'Bij inlooptijd: de tijd begint te lopen vanaf het aankoppelen, niet vanaf het klaarmaken!'
+  },
+
+  oplaaddosis: {
+    title: 'Oplaad- & onderhoudsdosis',
+    formulas: [
+      { label: 'Oplaaddosis', formula: 'Oplaaddosis (mg) = mg/kg × gewicht', example: '15 mg/kg × 70 kg = 1050 mg' },
+      { label: 'Onderhoudsdosis per gift', formula: 'Per gift = (mg/kg/dag × gewicht) ÷ frequentie', example: '(10 mg/kg/dag × 70 kg) ÷ 3 = 233 mg' },
+      { label: 'Oplaaddosis in mL', formula: 'mL = oplaaddosis (mg) ÷ concentratie (mg/mL)', example: '1050 mg ÷ 50 mg/mL = 21 mL' },
+      { label: 'Onderhoud via pomp', formula: 'mL/uur = mg/uur ÷ concentratie (mg/mL)', example: '100 mg/uur ÷ 10 mg/mL = 10 mL/uur' },
+    ],
+    tip: 'De oplaaddosis is een hogere startdosis om snel een werkzame spiegel te bereiken. Daarna volgt een lagere onderhoudsdosis.'
+  },
+
+  'geavanceerde-dosering': {
+    title: 'Geavanceerde dosering',
+    formulas: [
+      { label: 'Dosering op lichaamsoppervlak', formula: 'Dosis = mg/m² × BSA\nBSA (Mosteller) = √((gewicht × lengte cm) ÷ 3600)', example: '50 mg/m² × 1,82 m² = 91 mg' },
+      { label: 'Dosisaanpassing nierfunctie', formula: 'Aangepaste dosis = normale dosis × (aanpassing %÷100)', example: '500 mg × 50% = 250 mg' },
+      { label: 'Plasmaconcentratie', formula: 'Concentratie = dosis (mg) ÷ verdelingsvolume (L)\nVd = L/kg × gewicht', example: '500 mg ÷ (0,7 L/kg × 70 kg) = 10,2 mg/L' },
+    ],
+    tip: 'BSA (lichaamsoppervlak) wordt vooral gebruikt bij chemotherapie en bij kinderen.'
+  },
+
+  oplosberekeningen: {
+    title: 'Oplosberekeningen',
+    formulas: [
+      { label: 'Poeder oplossen', formula: '1) Concentratie = mg poeder ÷ oplosmiddel mL\n2) Volume = gewenste mg ÷ concentratie', example: '1000 mg in 10 mL → 100 mg/mL\n250 mg nodig → 250÷100 = 2,5 mL' },
+      { label: 'Percentage naar mg/mL', formula: '1% = 1 g/100 mL = 10 mg/mL', example: '2% oplossing = 20 mg/mL' },
+      { label: 'Infuus met toegevoegd medicijn', formula: 'mg/uur = (mg toegevoegd ÷ volume zak) × mL/uur', example: '1000 mg in 500 mL, 50 mL/uur → 2×50 = 100 mg/uur' },
+      { label: 'Verdunning in twee stappen', formula: '1) Verdun ampul in oplosmiddel\n2) Bereken nieuwe concentratie\n3) Trek gewenste dosis op', example: '100 mg/2 mL + 18 mL NaCl = 5 mg/mL\n20 mg nodig → 4 mL' },
+    ],
+    tip: 'Onthoud: bij verdunnen verandert het VOLUME, niet de hoeveelheid werkzame stof!'
   }
 };
 

@@ -200,6 +200,10 @@ body {
   background: linear-gradient(135deg, #8B5CF6, #6D28D9);
 }
 
+.level-icon.level-4 {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+
 .level-info h2 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -694,6 +698,7 @@ body {
 
 .exam-icon.level-2a { background: linear-gradient(135deg, #3B82F6, #2563EB); }
 .exam-icon.level-2b { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+.exam-icon.level-4 { background: linear-gradient(135deg, #10B981, #059669); }
 
 .exam-info { flex: 1; }
 .exam-info h3 { font-size: 0.95rem; font-weight: 600; }

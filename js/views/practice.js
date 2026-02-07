@@ -1,11 +1,15 @@
 import { updateTopicProgress, getTopicProgress } from '../store.js';
 import { getTopicById as getTopic2a, generateQuestion as genQ2a } from '../data/niveau2a.js';
 import { getTopicById as getTopic2b, generateQuestion as genQ2b } from '../data/niveau2b.js';
+import { getTopicById as getTopic4, generateQuestion as genQ4 } from '../data/niveau4.js';
 import { getFormulas } from '../data/formulas.js';
 
+const topicGetters = { '2a': getTopic2a, '2b': getTopic2b, '4': getTopic4 };
+const questionGenerators = { '2a': genQ2a, '2b': genQ2b, '4': genQ4 };
+
 export function renderPractice(container, niveau, topicId) {
-  const getTopic = niveau === '2a' ? getTopic2a : getTopic2b;
-  const generateQuestion = niveau === '2a' ? genQ2a : genQ2b;
+  const getTopic = topicGetters[niveau] || getTopic2a;
+  const generateQuestion = questionGenerators[niveau] || genQ2a;
   const topic = getTopic(topicId);
 
   if (!topic) {

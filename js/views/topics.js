@@ -1,12 +1,20 @@
 import { getTopicProgress } from '../store.js';
 import { topics as topics2a } from '../data/niveau2a.js';
 import { topics as topics2b } from '../data/niveau2b.js';
+import { topics as topics4 } from '../data/niveau4.js';
 import { getFormulas } from '../data/formulas.js';
 
+const levelConfig = {
+  '2a': { topics: topics2a, label: 'Basis', color: 'var(--primary)' },
+  '2b': { topics: topics2b, label: 'Gevorderd', color: '#8B5CF6' },
+  '4':  { topics: topics4, label: 'MBO Verpleegkundige', color: '#059669' }
+};
+
 export function renderTopics(container, niveau) {
-  const topics = niveau === '2a' ? topics2a : topics2b;
-  const levelLabel = niveau === '2a' ? 'Basis' : 'Gevorderd';
-  const levelColor = niveau === '2a' ? 'var(--primary)' : '#8B5CF6';
+  const config = levelConfig[niveau] || levelConfig['2a'];
+  const topics = config.topics;
+  const levelLabel = config.label;
+  const levelColor = config.color;
 
   const topicCards = topics.map((topic, i) => {
     const progress = getTopicProgress(niveau, topic.id);
