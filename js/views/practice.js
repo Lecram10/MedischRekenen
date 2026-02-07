@@ -1,6 +1,7 @@
 import { updateTopicProgress, getTopicProgress } from '../store.js';
 import { getTopicById as getTopic2a, generateQuestion as genQ2a } from '../data/niveau2a.js';
 import { getTopicById as getTopic2b, generateQuestion as genQ2b } from '../data/niveau2b.js';
+import { getFormulas } from '../data/formulas.js';
 
 export function renderPractice(container, niveau, topicId) {
   const getTopic = niveau === '2a' ? getTopic2a : getTopic2b;
@@ -19,6 +20,8 @@ export function renderPractice(container, niveau, topicId) {
   let mode = 'practice'; // 'practice' or 'steps'
   let sessionCorrect = 0;
   let sessionTotal = 0;
+  let formulasOpen = false;
+  const formData = getFormulas(topicId);
 
   function loadQuestion() {
     currentQuestion = generateQuestion(topicId);
@@ -167,6 +170,29 @@ export function renderPractice(container, niveau, topicId) {
         <button class="mode-btn ${mode === 'steps' ? 'active' : ''}" data-mode="steps">Stap voor stap</button>
       </div>
 
+      ${formData ? `
+      <button class="formula-toggle-btn" id="formula-toggle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+        Formules ${formData.title}
+      </button>
+      <div class="formula-card practice-formula ${formulasOpen ? '' : 'hidden'}" id="practice-formulas">
+        <div class="formula-header">
+          <span class="formula-title">Formules</span>
+          <button class="formula-close" id="formula-close-btn" aria-label="Sluiten">&times;</button>
+        </div>
+        <div class="formula-list">
+          ${formData.formulas.map(f => `
+            <div class="formula-item">
+              <div class="formula-label">${f.label}</div>
+              <div class="formula-expression">${f.formula.replace(/\n/g, '<br>')}</div>
+              <div class="formula-example">${f.example.replace(/\n/g, '<br>')}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${formData.tip ? `<div class="formula-tip">${formData.tip}</div>` : ''}
+      </div>
+      ` : ''}
+
       <div class="card animate-in">
         <div class="question-container">
           <div class="question-text">${currentQuestion.question}</div>
@@ -219,6 +245,23 @@ export function renderPractice(container, niveau, topicId) {
     const stepBtn = container.querySelector('#step-btn');
     if (stepBtn) {
       stepBtn.addEventListener('click', revealNextStep);
+    }
+
+    // Formula toggle
+    const formulaToggle = container.querySelector('#formula-toggle');
+    const formulaPanel = container.querySelector('#practice-formulas');
+    const formulaCloseBtn = container.querySelector('#formula-close-btn');
+    if (formulaToggle && formulaPanel) {
+      formulaToggle.addEventListener('click', () => {
+        formulasOpen = !formulasOpen;
+        formulaPanel.classList.toggle('hidden', !formulasOpen);
+      });
+    }
+    if (formulaCloseBtn) {
+      formulaCloseBtn.addEventListener('click', () => {
+        formulasOpen = false;
+        formulaPanel.classList.add('hidden');
+      });
     }
 
     // Auto-focus input
