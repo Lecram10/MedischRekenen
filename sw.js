@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medisch-rekenen-v2';
+const CACHE_NAME = 'medisch-rekenen-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const ASSETS = [
   './js/views/results.js',
   './js/data/niveau2a.js',
   './js/data/niveau2b.js',
+  './js/data/formulas.js',
   './manifest.json',
   './icons/icon-180.png',
   './icons/icon-192.png',

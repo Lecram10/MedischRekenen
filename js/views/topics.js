@@ -1,6 +1,7 @@
 import { getTopicProgress } from '../store.js';
 import { topics as topics2a } from '../data/niveau2a.js';
 import { topics as topics2b } from '../data/niveau2b.js';
+import { getFormulas } from '../data/formulas.js';
 
 export function renderTopics(container, niveau) {
   const topics = niveau === '2a' ? topics2a : topics2b;
@@ -15,24 +16,48 @@ export function renderTopics(container, niveau) {
       ? `${progress.correct}/${progress.total} goed (${pct}%)`
       : topic.description;
 
+    const formData = getFormulas(topic.id);
+    const formulaCard = formData ? `
+      <div class="formula-card hidden" id="formulas-${topic.id}">
+        <div class="formula-header">
+          <span class="formula-title">Formules: ${formData.title}</span>
+          <button class="formula-close" data-topic="${topic.id}" aria-label="Sluiten">&times;</button>
+        </div>
+        <div class="formula-list">
+          ${formData.formulas.map(f => `
+            <div class="formula-item">
+              <div class="formula-label">${f.label}</div>
+              <div class="formula-expression">${f.formula.replace(/\n/g, '<br>')}</div>
+              <div class="formula-example">${f.example.replace(/\n/g, '<br>')}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${formData.tip ? `<div class="formula-tip">${formData.tip}</div>` : ''}
+        <a href="#/practice/${niveau}/${topic.id}" class="btn btn-primary btn-block mt-12">Start met oefenen</a>
+      </div>
+    ` : '';
+
     return `
-      <a href="#/practice/${niveau}/${topic.id}" class="card card-interactive topic-card animate-in" style="text-decoration:none; color:inherit; animation-delay:${i * 0.05}s">
-        <div class="topic-icon" style="background:${topic.bgColor}; color:${topic.color}">
-          ${topic.icon}
+      <div class="topic-wrapper animate-in" style="animation-delay:${i * 0.05}s">
+        <div class="card card-interactive topic-card" data-topic="${topic.id}" style="cursor:pointer">
+          <div class="topic-icon" style="background:${topic.bgColor}; color:${topic.color}">
+            ${topic.icon}
+          </div>
+          <div class="topic-info">
+            <h3>${topic.name}</h3>
+            <p>${subtitle}</p>
+          </div>
+          <div class="topic-stars">
+            ${[1,2,3].map(s => `<span class="star ${s <= stars ? 'filled' : ''}">★</span>`).join('')}
+          </div>
+          <div class="topic-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
         </div>
-        <div class="topic-info">
-          <h3>${topic.name}</h3>
-          <p>${subtitle}</p>
-        </div>
-        <div class="topic-stars">
-          ${[1,2,3].map(s => `<span class="star ${s <= stars ? 'filled' : ''}">★</span>`).join('')}
-        </div>
-        <div class="topic-arrow">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </div>
-      </a>
+        ${formulaCard}
+      </div>
     `;
   }).join('');
 
@@ -45,4 +70,30 @@ export function renderTopics(container, niveau) {
     </div>
     ${topicCards}
   `;
+
+  // Toggle formula cards on topic click
+  container.querySelectorAll('.topic-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const topicId = card.dataset.topic;
+      const formulaEl = container.querySelector(`#formulas-${topicId}`);
+      if (formulaEl) {
+        const isHidden = formulaEl.classList.contains('hidden');
+        // Close all other formula cards
+        container.querySelectorAll('.formula-card').forEach(fc => fc.classList.add('hidden'));
+        if (isHidden) {
+          formulaEl.classList.remove('hidden');
+          formulaEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+  });
+
+  // Close buttons
+  container.querySelectorAll('.formula-close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const topicId = btn.dataset.topic;
+      container.querySelector(`#formulas-${topicId}`).classList.add('hidden');
+    });
+  });
 }
