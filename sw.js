@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medisch-rekenen-v4';
+const CACHE_NAME = 'medisch-rekenen-v5';
 const ASSETS = [
   './',
   './index.html',

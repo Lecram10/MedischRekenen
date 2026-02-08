@@ -126,7 +126,7 @@ export function getTotalStats() {
     totalCorrect,
     totalQuestions,
     totalStars,
-    maxStars: 54, // 18 topics * 3 stars
+    maxStars: 63, // 21 topics * 3 stars (6+6+9)
     examsCompleted: data.examResults.length,
     percentage: totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0
   };
